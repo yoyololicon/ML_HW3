@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     parameters = [[3, 6, 4, 5]]
     dev_func = [0, 0, 0, 0]
-    learning_rate = 0.001
+    learning_rate = 0.01
 
     table = PrettyTable(["optimal parameters", "train error", "test error"])
 
@@ -36,22 +36,23 @@ if __name__ == '__main__':
             dev_log_like(C_inv,
                          np.exp(-0.5 *
                                 parameters[-1][1] *
-                                np.subtract.outer(train_x, train_x)),
+                                np.subtract.outer(train_x, train_x)**2),
                          train_t)
         dev_func[1] = \
             dev_log_like(C_inv,
                          parameters[-1][0] *
+                         -0.5 *
+                         np.subtract.outer(train_x, train_x) *
                          np.exp(-0.5 *
                                 parameters[-1][1] *
-                                np.subtract.outer(train_x, train_x)) *
-                         -0.5 *
-                         np.subtract.outer(train_x, train_x),
+                                np.subtract.outer(train_x, train_x)**2)
+                         ,
                          train_t)
         dev_func[2] = dev_log_like(C_inv, np.full([60, 60], 1), train_t)
         dev_func[3] = dev_log_like(C_inv, np.multiply.outer(train_x, train_x), train_t)
-        parameters.append([p - learning_rate * dev for p, dev in zip(parameters[-1], dev_func)])
+        parameters.append([p + learning_rate * dev for p, dev in zip(parameters[-1], dev_func)])
 
-        if max(map(abs, dev_func)) < 6:
+        if max(map(abs, dev_func)) < 1:
             break
 
     params = np.array(parameters)

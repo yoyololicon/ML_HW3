@@ -11,7 +11,9 @@ parser.add_argument('data', help='should be 2_data.mat')
 plot_pos = {0:(0, 0), 1:(0, 1), 2:(1, 0), 3:(1, 1)}
 
 def exp_quad_kernel(x, y, params):
-    return params[0]*np.exp(-0.5*params[1]*np.subtract.outer(x, y)**2) + \
+    return params[0]*np.exp(-0.5*
+                            params[1]*
+                            np.subtract.outer(x, y)**2) + \
            params[2] + params[3]*np.multiply.outer(x, y)
 
 def RMSE(x, y):
