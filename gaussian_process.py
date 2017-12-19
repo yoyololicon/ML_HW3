@@ -6,7 +6,7 @@ import argparse
 from prettytable import PrettyTable
 
 parser = argparse.ArgumentParser(description='ML HW3')
-parser.add_argument('data', help='should be a matlab file.')
+parser.add_argument('data', help='should be 2_data.mat')
 
 plot_pos = {0:(0, 0), 1:(0, 1), 2:(1, 0), 3:(1, 1)}
 
@@ -36,7 +36,7 @@ if __name__ == '__main__':
                   [1, 64, 10, 0]]
 
     f, axarr = plt.subplots(2, 2)
-    table = PrettyTable(["parameters", "train", "test"])
+    table = PrettyTable(["parameters", "train error", "test error"])
 
     for p in range(4):
         pos = plot_pos[p]
