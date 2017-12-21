@@ -11,7 +11,7 @@ def get_w_b(a, t, x):
     Ns = np.count_nonzero(a)
     indice = np.nonzero(a)[0]
 
-    b = np.sum(t[indice]) - np.sum([np.linalg.multi_dot([at[indice], x[indice], x[n]]) for n in indice])
+    b = np.sum(t[indice]) - np.sum(np.linalg.multi_dot([at[indice], x[indice], x[indice].T]))
     b /= Ns
     return w, b
 
@@ -67,21 +67,20 @@ if __name__ == '__main__':
 
     Z = predict((w01, w02, w12), (b01, b02, b12), np.c_[xx.ravel(), yy.ravel()], label)
     Z = Z.reshape(xx.shape)
-    plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.5)
 
-    plt.scatter(X0[svi], X1[svi], c='black', s=60, label='support vector')
-    plt.scatter(X0[index_0], X1[index_0], c='r', s=50, marker='x', label='0')
-    plt.scatter(X0[index_1], X1[index_1], c='g', s=50, marker='+', label='1')
-    plt.scatter(X0[index_2], X1[index_2], c='b', s=50, marker='*', label='2')
-    plt.legend()
-    plt.xlim(xx.min(), xx.max())
-    plt.ylim(yy.min(), yy.max())
-    plt.xlabel('Sepal length')
-    plt.ylabel('Sepal width')
-    plt.xticks(())
-    plt.yticks(())
+    fig, sub = plt.subplots(2, 2)
+    sub[0][0].contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.5)
 
-    plt.show()
+    sub[0][0].scatter(X0[svi], X1[svi], c='black', s=60, label='support vector')
+    sub[0][0].scatter(X0[index_0], X1[index_0], c='r', s=50, marker='x', label='0')
+    sub[0][0].scatter(X0[index_1], X1[index_1], c='g', s=50, marker='+', label='1')
+    sub[0][0].scatter(X0[index_2], X1[index_2], c='b', s=50, marker='*', label='2')
+    sub[0][0].legend()
+    sub[0][0].set_xlim(xx.min(), xx.max())
+    sub[0][0].set_ylim(yy.min(), yy.max())
+    sub[0][0].set_xlabel('Sepal length')
+    sub[0][0].set_ylabel('Sepal width')
+
 
     #poly kernel
     clf2 = SVC(kernel='poly', degree=2, decision_function_shape='ovo')
@@ -106,18 +105,16 @@ if __name__ == '__main__':
     Z = predict((w01, w02, w12), (b01, b02, b12),
                 np.vstack((xx.ravel()**2, np.sqrt(2)*xx.ravel()*yy.ravel(), yy.ravel()**2)).T, label)
     Z = Z.reshape(xx.shape)
-    plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.5)
+    sub[0][1].contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.5)
 
-    plt.scatter(X0[svi], X1[svi], c='black', s=60, label='support vector')
-    plt.scatter(X0[index_0], X1[index_0], c='r', s=50, marker='x', label='0')
-    plt.scatter(X0[index_1], X1[index_1], c='g', s=50, marker='+', label='1')
-    plt.scatter(X0[index_2], X1[index_2], c='b', s=50, marker='*', label='2')
-    plt.legend()
-    plt.xlim(xx.min(), xx.max())
-    plt.ylim(yy.min(), yy.max())
-    plt.xlabel('Sepal length')
-    plt.ylabel('Sepal width')
-    plt.xticks(())
-    plt.yticks(())
+    sub[0][1].scatter(X0[svi], X1[svi], c='black', s=60, label='support vector')
+    sub[0][1].scatter(X0[index_0], X1[index_0], c='r', s=50, marker='x', label='0')
+    sub[0][1].scatter(X0[index_1], X1[index_1], c='g', s=50, marker='+', label='1')
+    sub[0][1].scatter(X0[index_2], X1[index_2], c='b', s=50, marker='*', label='2')
+    sub[0][1].legend()
+    sub[0][1].set_xlim(xx.min(), xx.max())
+    sub[0][1].set_ylim(yy.min(), yy.max())
+    sub[0][1].set_xlabel('Sepal length')
+    sub[0][1].set_ylabel('Sepal width')
 
     plt.show()
