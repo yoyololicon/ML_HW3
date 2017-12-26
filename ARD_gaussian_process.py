@@ -7,7 +7,7 @@ from prettytable import PrettyTable
 from gaussian_process import exp_quad_kernel, RMSE
 from bayesian_linear_regression import blr
 
-parser = argparse.ArgumentParser(description='ML HW3')
+parser = argparse.ArgumentParser(description='ML HW3 - ARD')
 parser.add_argument('data', help='should be 2_data.mat')
 
 def dev_log_like(C_inv, C_dev, t):
