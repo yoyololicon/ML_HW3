@@ -3,6 +3,7 @@ import Image
 import numpy as np
 from sklearn.mixture import GaussianMixture as GMM
 from prettytable import PrettyTable
+from datetime import datetime
 
 parser = argparse.ArgumentParser(description='ML HW3 - k-means & GMM')
 parser.add_argument('img', help='hw3_img.jpg')
@@ -16,18 +17,22 @@ if __name__ == '__main__':
     data = np.asarray(img, dtype='float')/255
     m, n, l = data.shape
     data = np.reshape(data, (-1, l))
-    max_iter = 100
     k = args.k
 
+    a = datetime.now().replace(microsecond=0)
     gmm = GMM(n_components=k).fit(data)
+    b = datetime.now().replace(microsecond=0)
+    print 'Time cost :', b-a
+
     indice = gmm.predict(data)
-    new_data = gmm.means_[indice] * 255
+    new_data = np.round(gmm.means_[indice] * 255)
     disp = Image.fromarray(new_data.reshape(m, n, l).astype('uint8'))
-    disp.show(title='k = %d' % k)
+    disp.show(title='GMM')
 
     table = PrettyTable()
-    table.add_column("mean number", range(k))
-    table.add_column("r", (gmm.means_[:, 0] * 255).astype('int'))
-    table.add_column("g", (gmm.means_[:, 1] * 255).astype('int'))
-    table.add_column("b", (gmm.means_[:, 2] * 255).astype('int'))
+    table.add_column("GMM mean value", range(k))
+    table.add_column("r", np.round(gmm.means_[:, 0] * 255).astype('int'))
+    table.add_column("g", np.round(gmm.means_[:, 1] * 255).astype('int'))
+    table.add_column("b", np.round(gmm.means_[:, 2] * 255).astype('int'))
     print table
+    print gmm.n_iter_, gmm.lower_bound_
