@@ -19,6 +19,7 @@ if __name__ == '__main__':
     data = loadmat(args.data)
     X = data['x'].squeeze()
     T = data['t'].squeeze()
+    beta_inv = 1
 
     train_x, test_x, train_t, test_t = train_test_split(X, T, train_size=60, test_size=40, shuffle=False)
 
@@ -29,7 +30,7 @@ if __name__ == '__main__':
     table = PrettyTable(["optimal parameters", "train error", "test error"])
 
     while True:
-        C_inv = np.linalg.inv(exp_quad_kernel(train_x, train_x, parameters[-1]) + np.identity(60))
+        C_inv = np.linalg.inv(exp_quad_kernel(train_x, train_x, parameters[-1]) + beta_inv * np.identity(60))
 
         #update parameter
         dev_func[0] = \
@@ -71,11 +72,11 @@ if __name__ == '__main__':
     y1 = np.empty(300)
     y2 = np.empty(300)
 
-    C_inv = np.linalg.inv(exp_quad_kernel(train_x, train_x, parameters[-1]) + np.identity(60))
+    C_inv = np.linalg.inv(exp_quad_kernel(train_x, train_x, parameters[-1]) + beta_inv * np.identity(60))
 
     for i in range(300):
         k = exp_quad_kernel(train_x, x[i], parameters[-1])
-        c = exp_quad_kernel(x[i], x[i], parameters[-1])
+        c = exp_quad_kernel(x[i], x[i], parameters[-1]) + beta_inv
         y[i] = np.linalg.multi_dot([k, C_inv, train_t])
         std = np.sqrt(c - np.linalg.multi_dot([k.T, C_inv, k]))
         y1[i] = y[i] + std
@@ -85,13 +86,11 @@ if __name__ == '__main__':
     train_y = np.empty(60)
     for i in range(60):
         k = exp_quad_kernel(train_x, train_x[i], parameters[-1])
-        c = exp_quad_kernel(train_x[i], train_x[i], parameters[-1])
         train_y[i] = np.linalg.multi_dot([k, C_inv, train_t])
 
     predict = np.empty(40)
     for i in range(40):
         k = exp_quad_kernel(train_x, test_x[i], parameters[-1])
-        c = exp_quad_kernel(test_x[i], test_x[i], parameters[-1])
         predict[i] = np.linalg.multi_dot([k, C_inv, train_t])
 
     table.add_row(["{" + str([round(p, 6) for p in parameters[-1]])[1:-1] + "}", RMSE(train_y, train_t), RMSE(predict, test_t)])

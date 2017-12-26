@@ -24,6 +24,7 @@ if __name__ == '__main__':
     data = loadmat(args.data)
     X = data['x'].squeeze()
     T = data['t'].squeeze()
+    beta_inv = 1
 
     train_x, test_x, train_t, test_t = train_test_split(X, T, train_size=60, test_size=40, shuffle=False)
 
@@ -42,12 +43,12 @@ if __name__ == '__main__':
 
     for p in range(4):
         pos = plot_pos[p]
-        C_inv = np.linalg.inv(exp_quad_kernel(train_x, train_x, parameters[p]) + np.identity(60))
+        C_inv = np.linalg.inv(exp_quad_kernel(train_x, train_x, parameters[p]) + beta_inv * np.identity(60))
 
         #plot the distribution
         for i in range(300):
             k = exp_quad_kernel(train_x, x[i], parameters[p])
-            c = exp_quad_kernel(x[i], x[i], parameters[p])
+            c = exp_quad_kernel(x[i], x[i], parameters[p]) + beta_inv
             y[i] = np.linalg.multi_dot([k, C_inv, train_t])
             std = np.sqrt(c - np.linalg.multi_dot([k.T, C_inv, k]))
             y1[i] = y[i] + std
