@@ -51,7 +51,7 @@ For bayesian linear regression
 
 ### Support Vector Machine
 
-The file [svm](svm.py) will plot four differnet svm decision boundary using iris data set, which is
+The file [svm](svm.py) will plot four differnet svm decision boundary using iris data set, which are
 
 * linear kernel with first two attribute
 * polynomial kernel (degree 2) with first two attribute
