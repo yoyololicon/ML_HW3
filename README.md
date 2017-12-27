@@ -8,7 +8,7 @@
 
 ## Usage of each file
 
-### Gussian Process for Regression (HW 1-1)
+### Gussian Process for Regression (task 1-1)
 
 The file [gaussian_process](gaussian_process.py) will display four gaussian process regression curve 
 using different parameters combination with exponential-quadratic kernel, and their RMS error.
@@ -26,7 +26,7 @@ using different parameters combination with exponential-quadratic kernel, and th
 +----------------+---------------+---------------+
 ```
 
-### Automatic relevance deetermination (HW 1-2)
+### Automatic relevance deetermination (task 1-2)
 
 The file [ARD_gaussian_process](ARD_gaussian_process.py) will display the parameters updating curve using ARD 
 and the regression result using the optimal value compare to bayesian in the previous homework.
@@ -49,7 +49,7 @@ For bayesian linear regression
 +----------------+---------------+
 ```
 
-### Support Vector Machine (HW 2)
+### Support Vector Machine (task 2)
 
 The file [svm](svm.py) will plot four differnet svm decision boundary using iris data set, which are
 
@@ -60,7 +60,7 @@ The file [svm](svm.py) will plot four differnet svm decision boundary using iris
 
 ![](images/svm.png)
 
-### Gaussian Mixture Model (HW 3)
+### Gaussian Mixture Model (task 3)
 
 The file [kmeans_gmm](k-means_GMM.py) will first compute k (user defined) mean values of the input image 
 and output the same image except the pixel values are scale to the nearest mean. 
