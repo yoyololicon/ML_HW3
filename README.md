@@ -49,7 +49,7 @@ For bayesian linear regression
 +----------------+---------------+
 ```
 
-### Support Vector Machine
+### Support Vector Machine (HW 2)
 
 The file [svm](svm.py) will plot four differnet svm decision boundary using iris data set, which are
 
@@ -60,7 +60,7 @@ The file [svm](svm.py) will plot four differnet svm decision boundary using iris
 
 ![](images/svm.png)
 
-### Gaussian Mixture Model
+### Gaussian Mixture Model (HW 3)
 
 The file [kmeans_gmm](k-means_GMM.py) will first compute k (user defined) mean values of the input image 
 and output the same image except the pixel values are scale to the nearest mean. 
