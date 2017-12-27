@@ -4,6 +4,9 @@ from sklearn.svm import SVC
 from sklearn.datasets import load_iris
 from svm_sklearn import make_meshgrid
 from collections import Counter
+import argparse
+
+parser = argparse.ArgumentParser(description='ML HW3 - svm')
 
 def get_w_b(a, t, x):
     at = a*t
@@ -81,6 +84,7 @@ if __name__ == '__main__':
     sub[0][0].set_ylim(yy.min(), yy.max())
     sub[0][0].set_xlabel('Sepal length')
     sub[0][0].set_ylabel('Sepal width')
+    sub[0][0].set_title('linear kernel')
 
     #poly kernel
     clf2 = SVC(kernel='poly', degree=2, decision_function_shape='ovo')
@@ -116,6 +120,7 @@ if __name__ == '__main__':
     sub[0][1].set_ylim(yy.min(), yy.max())
     sub[0][1].set_xlabel('Sepal length')
     sub[0][1].set_ylabel('Sepal width')
+    sub[0][1].set_title('polynomial kernel')
 
     #use LDA to reduce dimension, similar to PCA
     #calculate mean

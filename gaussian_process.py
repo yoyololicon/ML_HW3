@@ -5,8 +5,8 @@ import numpy as np
 import argparse
 from prettytable import PrettyTable
 
-parser = argparse.ArgumentParser(description='ML HW3 - gaussian process')
-parser.add_argument('data', help='should be 2_data.mat')
+parser = argparse.ArgumentParser(description='ML HW3 - gaussian process for regression')
+parser.add_argument('data', help='ex: Dataset/Problem1/2_data.mat')
 
 plot_pos = {0:(0, 0), 1:(0, 1), 2:(1, 0), 3:(1, 1)}
 

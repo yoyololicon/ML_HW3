@@ -13,7 +13,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     img = Image.open(args.img)
     img.load()
-    img.show(title='origin')
+    #img.show(title='origin')
     data = np.asarray(img, dtype='float')
     m, n, l = data.shape
     data = np.reshape(data, (-1, l))

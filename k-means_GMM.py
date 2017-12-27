@@ -17,7 +17,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     img = Image.open(args.img)
     img.load()
-    img.show(title='origin')
+    #img.show(title='origin')
     data = np.asarray(img, dtype='float')
     m, n, l = data.shape
     data = np.reshape(data, (-1, l))
@@ -47,7 +47,7 @@ if __name__ == '__main__':
                 u[j] = np.mean(data_k, axis=0)
 
     b = datetime.now().replace(microsecond=0)
-    print '%d iterations for k = %d' % (j, k)
+    print '%d iterations for k = %d' % (i+1, k)
     print 'Time cost :', b-a
     table = PrettyTable()
     table.add_column("k-means mean value", range(k))
