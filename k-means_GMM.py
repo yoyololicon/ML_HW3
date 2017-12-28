@@ -18,7 +18,7 @@ if __name__ == '__main__':
     img = Image.open(args.img)
     img.load()
     #img.show(title='origin')
-    data = np.asarray(img, dtype='float')
+    data = np.asarray(img, dtype='float')/255
     m, n, l = data.shape
     data = np.reshape(data, (-1, l))
     max_iter = 100
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     r = np.full([total_length], k + 1)
 
     a = datetime.now().replace(microsecond=0)
-    for i in range(max_iter):
+    for i in range(300):
         dist = np.sum((data[:, None] - u) ** 2, axis=2)
         new_r = np.argmin(dist, axis=1)
 
@@ -51,14 +51,15 @@ if __name__ == '__main__':
     print 'Time cost :', b-a
     table = PrettyTable()
     table.add_column("k-means mean value", range(k))
-    table.add_column("r", np.round(u[:, 0]).astype('int'))
-    table.add_column("g", np.round(u[:, 1]).astype('int'))
-    table.add_column("b", np.round(u[:, 2]).astype('int'))
+    table.add_column("r", np.round(u[:, 0]*255).astype('int'))
+    table.add_column("g", np.round(u[:, 1]*255).astype('int'))
+    table.add_column("b", np.round(u[:, 2]*255).astype('int'))
     print table
 
-    new_data = np.round(u[r])
+    new_data = np.round(u[r]*255)
     disp = Image.fromarray(new_data.reshape(m, n, l).astype('uint8'))
     disp.show(title='k-means')
+    disp.save('k-means_'+str(k)+'.png')
 
     #GMM parts
     pi = np.array([len(np.where(r == i)[0])/float(total_length) for i in range(k)])
@@ -81,11 +82,16 @@ if __name__ == '__main__':
         pi = N/total_length
 
         #evaluate
-        try:
-            psb = np.array([multivariate_normal.pdf(data, mean=u[j], cov=cov[j]) for j in range(k)]).T * pi
-        except np.linalg.linalg.LinAlgError:
-            print 'singular error at iteration', i+1
-            break
+        for j in range(k):
+            try:
+                psb[:, j] = multivariate_normal.pdf(data, mean=u[j], cov=cov[j])*pi[j]
+            except np.linalg.linalg.LinAlgError:
+                print 'singular error at iteration', i + 1
+                u[j] = np.random.rand(l)
+                temp = np.random.rand(l, l)
+                cov[j] = temp.dot(temp.T)
+                psb[:, j] = multivariate_normal.pdf(data, mean=u[j], cov=cov[j])*pi[j]
+
         likelihood.append(log_likelihood(psb))
 
     b = datetime.now().replace(microsecond=0)
@@ -99,12 +105,13 @@ if __name__ == '__main__':
 
     table2 = PrettyTable()
     table2.add_column("GMM mean value", range(k))
-    table2.add_column("r", np.round(u[:, 0]).astype('int'))
-    table2.add_column("g", np.round(u[:, 1]).astype('int'))
-    table2.add_column("b", np.round(u[:, 2]).astype('int'))
+    table2.add_column("r", np.round(u[:, 0]*255).astype('int'))
+    table2.add_column("g", np.round(u[:, 1]*255).astype('int'))
+    table2.add_column("b", np.round(u[:, 2]*255).astype('int'))
     print table2
 
     r = np.argmax(psb, axis=1)
-    new_data = np.round(u[r])
+    new_data = np.round(u[r]*255)
     disp2 = Image.fromarray(new_data.reshape(m, n, l).astype('uint8'))
     disp2.show(title='GMM')
+    disp2.save('GMM_'+str(k)+'.png')

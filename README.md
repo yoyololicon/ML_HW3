@@ -73,11 +73,11 @@ origin image
 
 k-means(k = 3)
 
-![](images/kmeans_3.png)
+![](images/k-means_3.png)
 
 GMM(k = 3)
 
-![](images/gmm_3.png)
+![](images/GMM_3.png)
 
 It will also output the RGB value of the mean, like the following:
 
@@ -100,6 +100,3 @@ EM finished, time cost : 0:00:39
 |       2        | 190 | 180 | 148 |
 +----------------+-----+-----+-----+
 ```
-
-**The EM algorithm might be interrupt with bigger k due to the singular matrix problem 
-using scipy.stats.multivariate_norm to compute pdf.**

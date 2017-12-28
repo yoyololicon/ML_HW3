@@ -14,7 +14,7 @@ if __name__ == '__main__':
     img = Image.open(args.img)
     img.load()
     #img.show(title='origin')
-    data = np.asarray(img, dtype='float')
+    data = np.asarray(img, dtype='float')/255
     m, n, l = data.shape
     data = np.reshape(data, (-1, l))
     k = args.k
@@ -25,13 +25,13 @@ if __name__ == '__main__':
     print 'Time cost :', b-a
 
     indice = kmeans.predict(data)
-    new_data = np.round(kmeans.cluster_centers_[indice])
+    new_data = np.round(kmeans.cluster_centers_[indice]*255)
     disp = Image.fromarray(new_data.reshape(m, n, l).astype('uint8'))
     disp.show(title='k-means')
 
     table = PrettyTable()
     table.add_column("k-means mean value", range(k))
-    table.add_column("r", np.round(kmeans.cluster_centers_[:, 0]).astype('int'))
-    table.add_column("g", np.round(kmeans.cluster_centers_[:, 1]).astype('int'))
-    table.add_column("b", np.round(kmeans.cluster_centers_[:, 2]).astype('int'))
+    table.add_column("r", np.round(kmeans.cluster_centers_[:, 0]*255).astype('int'))
+    table.add_column("g", np.round(kmeans.cluster_centers_[:, 1]*255).astype('int'))
+    table.add_column("b", np.round(kmeans.cluster_centers_[:, 2]*255).astype('int'))
     print table
