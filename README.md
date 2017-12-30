@@ -39,7 +39,7 @@ For ARD gaussian process
 +-------------------------------------+----------------+---------------+
 |          optimal parameters         |  train error   |   test error  |
 +-------------------------------------+----------------+---------------+
-| {8.191281, 6.0, 4.010115, 4.945692} | 0.804420485542 | 1.10355040593 |
+| {3.387085, 6.0, 4.005092, 5.000385} | 0.841025010819 | 1.12727668046 |
 +-------------------------------------+----------------+---------------+
 For bayesian linear regression
 +----------------+---------------+
@@ -78,6 +78,10 @@ k-means(k = 3)
 GMM(k = 3)
 
 ![](images/GMM_3.png)
+
+log likelihood curve when performing EM algorithm.
+
+![](images/gmm_3_log.png)
 
 It will also output the RGB value of the mean, like the following:
 

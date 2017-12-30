@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     parameters = [[3, 6, 4, 5]]
     dev_func = [0, 0, 0, 0]
-    learning_rate = 0.01
+    learning_rate = 0.001
 
     table = PrettyTable(["optimal parameters", "train error", "test error"])
 
@@ -53,7 +53,7 @@ if __name__ == '__main__':
         dev_func[3] = dev_log_like(C_inv, np.multiply.outer(train_x, train_x), train_t)
         parameters.append([p + learning_rate * dev for p, dev in zip(parameters[-1], dev_func)])
 
-        if max(map(abs, dev_func)) < 1:
+        if np.max(np.abs(dev_func)) < 6:
             break
 
     params = np.array(parameters)

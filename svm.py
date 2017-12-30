@@ -11,11 +11,15 @@ parser = argparse.ArgumentParser(description='ML HW3 - svm')
 def get_w_b(a, t, x):
     at = a*t
     w = at.dot(x)
-    Ns = np.count_nonzero(a)
-    indice = np.nonzero(a)[0]
-
-    b = np.sum(t[indice]) - np.sum(np.linalg.multi_dot([at[indice], x[indice], x[indice].T]))
-    b /= Ns
+    indice_s = np.nonzero(a)[0]
+    indice_m = np.where((0 < a) & (a < 1))[0]
+    Nm = len(indice_m)
+    Ns = len(indice_s)
+    if Nm == 0:
+        b = -1
+    else:
+        b = np.sum(t[indice_m]) - np.sum(np.linalg.multi_dot([at[indice_s], x[indice_s], x[indice_m].T]))
+        b /= Nm
     return w, b
 
 def predict(W, B, X, label):
