@@ -67,7 +67,7 @@ and output the same image except the pixel values are scale to the nearest mean.
 Then, using these means as initial value for GMM, after perform EM algorithm, output the image 
 scale to the most probable mean value.
 
-origin image
+original image
 
 ![](Dataset/Problem3/hw3_img.jpg)
 

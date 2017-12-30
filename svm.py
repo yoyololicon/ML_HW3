@@ -136,7 +136,7 @@ if __name__ == '__main__':
     S_w = np.sum([(X[i*50:(i+1)*50] - means[i]).T.dot(X[i*50:(i+1)*50] - means[i]) for i in range(3)], axis=0)
     S_b = 50*(means - overall_mean).T.dot(means - overall_mean)
 
-    #this part I ectually copy from my IML HW 2 PCA part
+    #this part I actually copy from my IML HW 2 PCA part
     mat = np.linalg.inv(S_w).dot(S_b)
     va, ve = np.linalg.eig(mat)
     eig_pairs = [(va[i], ve[:, i]) for i in range(len(va))]
